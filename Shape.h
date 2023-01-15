@@ -1,13 +1,13 @@
 #ifndef TETRIS_SHAPE_H
 #define TETRIS_SHAPE_H
 using namespace std;
+#include<iostream>
 #include "string"
 #include "vector"
 vector<string> split(const string line, char delim = ' ');
 
 
 class Shape {
-protected:
     int anchorCoord[2];
     vector<vector<bool>> shape;
 
@@ -54,6 +54,14 @@ public:
             newVect[0][1] = shape[1][3];
             newVect[0][2] = shape[2][3];
             shape = newVect;
+        }
+    }
+    void printShape(){
+        for(int i = shape.size() - 1; i >= 0; i--){
+            for(int j = 0; j < shape.size(); j++){
+                cout << shape[i][j] << " ";
+            }
+            cout << endl;
         }
     }
 
