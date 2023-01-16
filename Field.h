@@ -7,6 +7,7 @@ class Field {
     Shape* fallingShape;
     Generator generator;
     char field[20][10]; // 4 types of block: 'E' - empty, 'S' - shape, 'F' - floor
+    bool loose = false;
 
 public:
     Field(){
@@ -17,7 +18,7 @@ public:
         }
     }
 
-    void updateField(bool create = false){
+    int updateField(bool create = false){
         for(int i = 0; i < 20; i++){
             for(int j = 0; j < 10; j++){
                 if(field[i][j] == 'S'){
@@ -38,7 +39,7 @@ public:
                     else if(y + i < 0){
                         fallingShape->copy(archive);
                         updateField();
-                        return freezeShape();
+                        return freezeShape()*100;
                     }
                     else if(field[y + i][x + j] == 'F'){
                         if(create){
@@ -48,11 +49,13 @@ public:
                                     field[i][j] = 'E';
                                 }
                             }
-                            return createShape();
+                            loose = true;
+                            createShape();
+                            return 0;
                         }
                         fallingShape->copy(archive);
                         updateField();
-                        return freezeShape();
+                        return freezeShape()*100;
                     }
                     else if(field[y + i][x + j] != 'E'){
                         fallingShape->copy(archive);
@@ -65,7 +68,7 @@ public:
         archive->copy(fallingShape);
     }
 
-    void freezeShape(){
+    int freezeShape(){
         int length = fallingShape->getCoords().size();
         int y = fallingShape->getAnchorY();
         int x = fallingShape->getAnchorX();
@@ -76,8 +79,9 @@ public:
                 }
             }
         }
-        checkField();
-        return createShape();
+        int num = checkField();
+        createShape();
+        return num;
     }
 
     int fillOneBlock(int y, int x){
@@ -91,6 +95,7 @@ public:
 
     int checkField(){
         int cleared = 0;
+        vector<int> lines;
         for(int i = 19; i >= 0; i--){
             bool lineToClear = true;
             for(int j = 0; j < 10; j++){
@@ -100,9 +105,12 @@ public:
                 }
             }
             if(lineToClear){
-                clearLine(i);
+                lines.push_back(i);
                 cleared++;
             }
+        }
+        for(int i = 0; i < lines.size(); i++){
+            clearLine(lines[i]);
         }
         return cleared;
     }
@@ -124,24 +132,28 @@ public:
         updateField(true);
     }
 
-    void fall(){
+    int fall(){
         fallingShape->fall();
-        updateField();
+        return updateField();
     }
 
-    void moveRight(){
+    int moveRight(){
         fallingShape->moveRight();
-        updateField();
+        return updateField();
     }
 
-    void moveLeft(){
+    int moveLeft(){
         fallingShape->moveLeft();
-        updateField();
+        return updateField();
     }
 
-    void rotate(){
+    int rotate(){
         fallingShape->rotate();
-        updateField();
+        return updateField();
+    }
+
+    bool getLoose(){
+        return loose;
     }
 
     void printField(){
