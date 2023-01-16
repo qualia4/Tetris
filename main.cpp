@@ -42,6 +42,14 @@ int main() {
         else if(command == "rotate"){
             field.rotate();
         }
+        else if(command == "fill"){
+            int y,x;
+            cout << "Enter Y:";
+            cin >> y;
+            cout << "Enter X:";
+            cin >> x;
+            field.fillOneBlock(y, x);
+        }
         field.printField();
     }
 }

@@ -80,6 +80,15 @@ public:
         return createShape();
     }
 
+    int fillOneBlock(int y, int x){
+        if(field[y][x] == 'E'){
+            field[y][x] = 'F';
+            checkField();
+            return 1000;
+        }
+        return 0;
+    }
+
     int checkField(){
         int cleared = 0;
         for(int i = 19; i >= 0; i--){
