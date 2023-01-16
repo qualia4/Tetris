@@ -34,7 +34,7 @@ public:
                 return generateS();
                 break;
             default:
-                return generateI();
+                break;
         }
     }
 

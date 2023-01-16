@@ -3,4 +3,4 @@ project(Tetris)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Tetris main.cpp Shape.cpp Shape.h Generator.cpp Generator.h)
+add_executable(Tetris main.cpp Shape.cpp Shape.h Generator.cpp Generator.h Field.cpp Field.h)

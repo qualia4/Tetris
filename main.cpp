@@ -1,8 +1,17 @@
 #include <iostream>
-#include "Generator.h"
+#include "Field.h"
 
 int main() {
-    Generator generator;
-    Shape* shape = generator.generateShape();
-    shape->printShape();
+    Field field;
+    field.createShape();
+    field.printField();
+    field.rotate();
+    cout << endl;
+    field.printField();
+    for(int i = 1; i < 40; i++){
+        cout << i << endl;
+        field.fall();
+        field.printField();
+    }
+
 }

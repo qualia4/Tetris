@@ -17,15 +17,25 @@ public:
         anchorCoord[1] = x;
         this->shape = shape;
     }
+
+    void copy(Shape* shape){
+        this->shape = shape->getCoords();
+        anchorCoord[0] = shape->getAnchorY();
+        anchorCoord[1] = shape->getAnchorX();
+    }
+
     void fall(){
         anchorCoord[0] -= 1;
     }
+
     void moveRight(){
         anchorCoord[1] += 1;
     }
+
     void moveLeft(){
         anchorCoord[1] -= 1;
     }
+
     void rotate(){
         if(shape.size() == 3){
             vector<vector<bool>> newVect = shape;
@@ -56,6 +66,7 @@ public:
             shape = newVect;
         }
     }
+
     void printShape(){
         for(int i = shape.size() - 1; i >= 0; i--){
             for(int j = 0; j < shape.size(); j++){
@@ -63,6 +74,18 @@ public:
             }
             cout << endl;
         }
+    }
+
+    vector<vector<bool>> getCoords(){
+        return shape;
+    }
+
+    int getAnchorX(){
+        return anchorCoord[1];
+    }
+
+    int getAnchorY(){
+        return anchorCoord[0];
     }
 
 };
