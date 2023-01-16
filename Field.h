@@ -17,7 +17,7 @@ public:
         }
     }
 
-    void updateField(){
+    void updateField(bool create = false){
         for(int i = 0; i < 20; i++){
             for(int j = 0; j < 10; j++){
                 if(field[i][j] == 'S'){
@@ -41,6 +41,15 @@ public:
                         return freezeShape();
                     }
                     else if(field[y + i][x + j] == 'F'){
+                        if(create){
+                            cout << "!!!!Game lost!!!!" << endl;
+                            for(int i = 0; i < 20; i++){
+                                for(int j = 0; j < 10; j++){
+                                    field[i][j] = 'E';
+                                }
+                            }
+                            return createShape();
+                        }
                         fallingShape->copy(archive);
                         updateField();
                         return freezeShape();
@@ -68,7 +77,7 @@ public:
             }
         }
         checkField();
-        createShape();
+        return createShape();
     }
 
     int checkField(){
@@ -103,7 +112,7 @@ public:
     void createShape(){
         fallingShape = generator.generateShape();
         archive = new Shape(fallingShape->getAnchorX(), fallingShape->getAnchorY(), fallingShape->getCoords());
-        updateField();
+        updateField(true);
     }
 
     void fall(){
@@ -129,7 +138,12 @@ public:
     void printField(){
         for(int i = 19; i >= 0; i--){
             for(int j = 0; j < 10; j++){
-                cout << field[i][j] << " ";
+                if(field[i][j] == 'S' or field[i][j] == 'F'){
+                    cout << "❏" << " ";
+                }
+                else{
+                    cout << "." << " ";
+                }
             }
             cout << endl;
         }
